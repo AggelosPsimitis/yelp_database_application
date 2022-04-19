@@ -1,0 +1,65 @@
+-- 1
+SELECT u.name , u.review_count , u.yelping_since
+FROM  user u
+WHERE u.review_count > 500 AND u.name = 'Lisa'
+ORDER BY (u.yelping_since);
+
+-- 2
+
+SELECT u.user_id, b.business_id, r.review_id
+FROM reviews r, user u, business b
+WHERE u.name = 'Lisa' AND r.user_id = u.user_id AND r.business_id = b.business_id AND b.name = 'Gab & Eat';
+
+
+-- 3
+
+
+SELECT 'yes' as 'answer'
+FROM reviews_pos_neg pn
+WHERE exists (SELECT pn.positive FROM business b, reviews r, reviews_pos_neg pn
+WHERE b.business_id = 'OmpbTu4deR3ByOo7btTTZw' AND r.business_id = b.business_id 
+AND r.review_id = pn.review_id AND pn.positive = true)
+UNION
+SELECT 'no'
+FROM reviews_pos_neg pn
+WHERE not exists (SELECT pn.positive FROM business b, reviews r, reviews_pos_neg pn
+WHERE b.business_id = 'OmpbTu4deR3ByOo7btTTZw' AND r.business_id = b.business_id 
+AND r.review_id = pn.review_id AND pn.positive = true);
+
+
+
+-- 4
+
+SELECT b.business_id , count(r.review_id) as 'count(reviews_pos_neg)'
+FROM business b, reviews r
+WHERE b.business_id = r.business_id AND r.date = 2014 
+GROUP BY b.business_id
+HAVING (COUNT(r.review_id)>10); 
+
+
+-- 5
+SELECT  u.user_id, COUNT(distinct(r.review_id)) as 'count(r.review_id)'
+FROM business b, reviews r, user u, business_category bc, category ct
+WHERE b.business_id = r.business_id AND r.user_id = u.user_id AND b.business_id = bc.business_id AND bc.category_id = ct.category_id AND ct.category = 'Mobile Phones'
+GROUP BY u.user_id;
+
+
+
+
+-- 6 
+
+SELECT  r.votes_useful, u.user_id, b.name
+FROM reviews r, user u , business b 
+WHERE u.user_id = r.user_id AND b.business_id = r.business_id AND b.name = 'Midas'
+ORDER BY  (r.votes_useful) DESC;
+
+
+
+
+
+
+
+
+
+
+
