@@ -1,1 +1,1 @@
-#### Final exercise for Database Design class offered in electronic automation post-graduate program (NKUA).
+#### Final exercise for the Database Design class of electronic automation post-graduate program (NKUA).
